@@ -12,18 +12,36 @@ const app = express();
 ////////////////////////// TEST ////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-app.get('/test', async (req, res) => {
+app.post('/login', async (req, res) => {
+
+    //req.body = {email , password} //Headers:token
+    let body = req.body
+
+    //Parameters validation
+    if ((!body.email) || (!body.password)) {
+        console.error(`Failed to send transaction: Missing arguments\n`);
+        return res.status(400).json({
+            ok: false,
+            response: 'Missing arguments in request body'
+        });
+    }
+
     try {
+
+        //logic
+
+        let jwt
 
         return res.status(200).json({
             ok: true,
-            message: 'server is working'
+            message: 'login successfully',
+            jwt
         })
 
     } catch (error) {
         res.status(500).json({
             ok: false,
-            response: `Server is not working: ${error}`
+            response: `Internal server error": ${error}`
         });
 
     }
@@ -31,4 +49,3 @@ app.get('/test', async (req, res) => {
 
 
 module.exports = app;
-
