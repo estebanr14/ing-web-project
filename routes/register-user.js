@@ -16,11 +16,11 @@ const sha256 = require('sha256')
 
 app.post('/register-user', async (req, res) => {
 
-    //req.body = {name , email , password , role, id_provider   } //Headers:token
+    //req.body = {userName , email , password , role, id_provider   } //Headers:token
     let body = req.body
 
     //Parameters validation
-    if ((!body.name) || (!body.email) || (!body.password) || (!body.role) || (!body.id_provider)) {
+    if ((!body.userName) || (!body.email) || (!body.password) || (!body.role) || (!body.id_provider)) {
         console.error(`Failed to send transaction: Missing arguments\n`);
         return res.status(400).json({
             ok: false,
@@ -33,7 +33,7 @@ app.post('/register-user', async (req, res) => {
         //logic
 
         let data = {
-            name: body.name,
+            name: body.userName,
             email:body.email,
             password: sha256.x2(body.password),
             role: body.role,
@@ -41,7 +41,7 @@ app.post('/register-user', async (req, res) => {
 
         }
 
-        adminFirebase.database().ref(`/Users/${body.name}`).set({ data: data }, function (err) {
+        adminFirebase.database().ref(`/Users/${body.userName}`).set({ data: data }, function (err) {
 
             if (err) return console.log(`Error to set  in data base:  ${err}  \n`)
             return console.log(`Data added to database successfully \n`)
