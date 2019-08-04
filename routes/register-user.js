@@ -7,6 +7,8 @@
 require('../config/config');
 const express = require('express');
 const app = express();
+const adminFirebase = require('../model/firebase') 
+const sha256 = require('sha256')
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////// TEST ////////////////////////////////////
@@ -29,6 +31,22 @@ app.post('/register-user', async (req, res) => {
     try {
 
         //logic
+
+        let data = {
+            name: body.name,
+            email:body.email,
+            password: sha256.x2(body.password),
+            role: body.role,
+            id_provider: body.id_provider
+
+        }
+
+        adminFirebase.database().ref(`/Users/${body.name}`).set({ data: data }, function (err) {
+
+            if (err) return console.log(`Error to set  in data base:  ${err}  \n`)
+            return console.log(`Data added to database successfully \n`)
+        });
+
 
         return res.status(201).json({
             ok: true,

@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/estebanr14/ing-web-project#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "firebase-admin": "^8.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "sha256": "^0.2.0"
   }
 }

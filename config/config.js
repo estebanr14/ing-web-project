@@ -9,7 +9,9 @@ process.env.PORT = process.env.PORT || 3000;
 // ============================
 //  Base de datos
 // ============================
-let urlDB;
+
+
+process.env.urlDB = process.env.urlDB || "https://ing-web-database.firebaseio.com"
 
 
 // ============================
