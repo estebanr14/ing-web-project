@@ -15,7 +15,7 @@ var jwt = require('jsonwebtoken');
 ////////////////////////// TEST ////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-app.post('/login', async (req, res) => {
+app.post('/login', async(req, res) => {
 
     //req.body = {userName , password} //Headers:token
     let body = req.body
@@ -31,7 +31,7 @@ app.post('/login', async (req, res) => {
 
     try {
 
-        adminFirebase.database().ref(`/Users`).child(body.userName).once("value", function (snapshot) {
+        adminFirebase.database().ref(`/Users`).child(body.userName).once("value", function(snapshot) {
             if (snapshot.val() == null) {
                 return res.status(400).json({
                     ok: false,
@@ -39,8 +39,7 @@ app.post('/login', async (req, res) => {
                         message: 'User not found in Database'
                     }
                 });
-            }
-            else {
+            } else {
                 let hash = sha256.x2(body.password);
                 if (hash == snapshot.val().data.password) {
                     console.log('Login successful')
@@ -59,12 +58,14 @@ app.post('/login', async (req, res) => {
         let jwtoken = jwt.sign({
             exp: Math.floor(Date.now() / 1000) + (60 * 60),
             user: body.userName
-          }, 'secret');
+        }, 'secret');
 
         return res.status(200).json({
             ok: true,
             message: 'login successfully',
-            jwtoken
+            user: {
+                jwtoken
+            }
         })
 
     } catch (error) {
