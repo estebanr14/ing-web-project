@@ -64,6 +64,7 @@ app.post('/login', async(req, res) => {
             ok: true,
             message: 'login successfully',
             user: {
+                userName: body.userName,
                 jwtoken
             }
         })
