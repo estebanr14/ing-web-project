@@ -9,13 +9,13 @@ const express = require('express');
 const app = express();
 const adminFirebase = require('../model/firebase')
 const sha256 = require('sha256')
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 ////////////////////////////////////////////////////////////////////
-////////////////////////// TEST ////////////////////////////////////
+////////////////////////// LOGIN ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-app.post('/login', async(req, res) => {
+app.post('/login', async (req, res) => {
 
     //req.body = {userName , password} //Headers:token
     let body = req.body
@@ -25,29 +25,60 @@ app.post('/login', async(req, res) => {
         console.error(`Failed to send transaction: Missing arguments\n`);
         return res.status(400).json({
             ok: false,
-            response: 'Missing arguments in request body'
+            response: {
+                msg: 'Missing arguments in request body'
+            }
         });
     }
 
     try {
 
-        await adminFirebase.database().ref(`/Users`).child(body.userName).once("value", function(snapshot) {
+        await adminFirebase.database().ref(`/Users`).child(body.userName).once("value", function (snapshot) {
             if (snapshot.val() == null) {
                 return res.status(400).json({
                     ok: false,
-                    err: {
-                        message: 'User not found in Database'
+                    response:{
+                        msg: 'User not found in Database'
                     }
                 });
             } else {
                 let hash = sha256.x2(body.password);
                 if (hash == snapshot.val().data.password) {
-                    console.log('Login successful')
+
+                    console.log('Login successful');
+
+                    let jwtoken = jwt.sign({
+                        exp: Math.floor(Date.now() / 1000) + (60 * 60),
+                        user: body.userName,
+                        role: snapshot.val().data.role
+                    }, 'ing-web-secret');
+
+                    let user = {
+                        userName: body.userName,
+                        role: snapshot.val().data.role,
+                        email: snapshot.val().data.email,
+                        id_provider: snapshot.val().data.id_provider,
+                        jwtoken
+                    }
+
+                    if (snapshot.val().data.id_investigator){
+                        user.id_investigator = snapshot.val().data.id_investigator
+                    }
+
+                    return res.status(200).json({
+                        ok: true,
+                        response: {
+                            msg: 'login successfully',
+                            user
+                        }
+
+                    });
+
                 } else {
                     return res.status(400).json({
                         ok: false,
-                        err: {
-                            message: `Invalid password`
+                        response:{
+                            msg: 'Invalid password'
                         }
                     });
                 }
@@ -55,19 +86,7 @@ app.post('/login', async(req, res) => {
         });
 
 
-        let jwtoken = jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (60 * 60),
-            user: body.userName
-        }, 'secret');
 
-        return res.status(200).json({
-            ok: true,
-            message: 'login successfully',
-            user: {
-                userName: body.userName,
-                jwtoken
-            }
-        })
 
     } catch (error) {
         res.status(500).json({
