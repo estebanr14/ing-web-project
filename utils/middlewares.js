@@ -18,7 +18,7 @@ let verifyAdminToken = (req, res, next) => {
             return res.status(401).json({
                 ok: false,
                 response: {
-                    message: 'Invalid token'
+                    msg: 'Invalid token'
                 }
             });
         }
@@ -27,7 +27,7 @@ let verifyAdminToken = (req, res, next) => {
             return res.status(401).json({
                 ok: false,
                 response: {
-                    message: 'Role must be admin'
+                    msg: 'Role must be admin'
                 }
             });
         }
@@ -53,21 +53,23 @@ let verifyToken = (req, res, next) => {
             return res.status(401).json({
                 ok: false,
                 response: {
-                    message: 'Invalid token'
+                    msg: 'Invalid token'
                 }
             });
         }
 
-        if (decoded.role == 'admin' && decoded.role == 'user'){
+        if (decoded.role == 'admin' || decoded.role == 'user'){
             next();
+        }else{
+            return res.status(401).json({
+                ok: false,
+                response: {
+                    msg: 'Role must be admin or user'
+                }
+            });
         }
 
-        return res.status(401).json({
-            ok: false,
-            response: {
-                message: 'Role must be admin'
-            }
-        });
+        
 
         //req.usuario = decoded.usuario;
 
