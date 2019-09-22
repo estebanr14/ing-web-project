@@ -31,7 +31,7 @@ app.post('/login', async(req, res) => {
 
     try {
 
-        adminFirebase.database().ref(`/Users`).child(body.userName).once("value", function(snapshot) {
+        await adminFirebase.database().ref(`/Users`).child(body.userName).once("value", function(snapshot) {
             if (snapshot.val() == null) {
                 return res.status(400).json({
                     ok: false,
