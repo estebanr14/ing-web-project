@@ -6,6 +6,8 @@
 const express = require('express');
 const app = express();
 const { verifyToken } = require('./../utils/middlewares')
+const adminFirebase = require('../model/firebase')
+
 
 ////////////////////////////////////////////////////////////////////
 //////////////////// CREATE INCIDENT ///////////////////////////////
@@ -14,12 +16,12 @@ const { verifyToken } = require('./../utils/middlewares')
 
 app.post('/create-incident',verifyToken, (req,res)=>{
 
-    //req.body = {id, titulo , descripcion, categoria, impacto, creadoPor, asignacion, investigadores, fechaInicio, fechaCierre, estado} // header: {token}
+    //req.body = { titulo , descripcion, categoria, impacto, creadoPor, asignacion, investigadores, fechaInicio, fechaCierre, estado} // header: {token}
     let body = req.body
 
 
     //Parameters validation
-    if ((!body.id) || (!body.titulo) || (!body.descripcion) || (!body.categoria) || (!body.impacto) || (!body.creadoPor)|| (!body.asignacion)|| (!body.investigadores)|| (!body.fechaInicio)|| (!body.fechaCierre)|| (!body.estado)) {
+    if ((!body.titulo) || (!body.descripcion) || (!body.categoria) || (!body.impacto) || (!body.creadoPor)|| (!body.asignacion)|| (!body.investigadores)|| (!body.fechaInicio)|| (!body.fechaCierre)|| (!body.estado)) {
         console.error(`Failed to send transaction: Missing arguments\n`);
         return res.status(400).json({
             ok: false,
@@ -33,7 +35,7 @@ app.post('/create-incident',verifyToken, (req,res)=>{
     try {
 
         let incident_data = {
-            id: body.id,
+            id: 'Incident_'+Date.now(),
             titulo : body.titulo, 
             descripcion : body.descripcion, 
             categoria: body.categoria, 
@@ -45,6 +47,30 @@ app.post('/create-incident',verifyToken, (req,res)=>{
             fechaCierre: body.fechaCierre, 
             estado: body.estado
         }
+
+        adminFirebase.database().ref(`/Incidents/${incident_data.id}`).set({ data: incident_data }, function (err) {
+
+            if (err) {
+                console.log(`Error to set  in data base:  ${err}  \n`);
+                return res.status(400).json({
+                    ok: false,
+                    response: {
+                        msg: `Error to set  in data base:  ${err}  \n`
+                    }
+                });
+            }
+
+            console.log(`Incident data added to database successfully \n`)
+            return res.status(200).json({
+                ok: true,
+                response:{
+                    msg: 'Incident registered successfully',
+                    incident: incident_data
+                }   
+            })
+        });
+
+
         
     } catch (error) {
         
