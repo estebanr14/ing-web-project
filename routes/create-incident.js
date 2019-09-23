@@ -21,7 +21,7 @@ app.post('/create-incident',verifyToken, (req,res)=>{
 
 
     //Parameters validation
-    if ((!body.title) || (!body.description) || (!body.category) || (!body.impact) || (!body.createdBy)|| (!body.assigned)|| (!body.investigator)|| (!body.start_date)|| (!body.end_date)|| (!body.state)) {
+    if ((!body.title) || (!body.description) || (!body.category) || (!body.impact) || (!body.createdBy)|| (!body.start_date)||  (!body.state)) {
         console.error(`Failed to send transaction: Missing arguments\n`);
         return res.status(400).json({
             ok: false,
