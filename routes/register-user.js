@@ -30,7 +30,7 @@ app.post('/register-user', verifyAdminToken, async (req, res) => {
 //////////////////// REGISTER USER /////////////////////////////////
 ////////////////////////////////////////////////////////////////////ok: false,
             response: {
-                msg: 'Missing arguments in request body'
+                msg: 'Faltan argumentos en el Body'
             }
         });
     }
@@ -59,7 +59,7 @@ app.post('/register-user', verifyAdminToken, async (req, res) => {
                 return res.status(400).json({
                     ok: false,
                     response: {
-                        msg: `Error to set  in data base:  ${err}  \n`
+                        msg: `Error al guardar en la base de datos  ${err}  \n`
                     }
                 });
             }
@@ -68,7 +68,7 @@ app.post('/register-user', verifyAdminToken, async (req, res) => {
             return res.status(200).json({
                 ok: true,
                 response:{
-                    msg: 'Registered user successfully'
+                    msg: 'Usuario registrado exitosamente'
                 }   
             })
         });
@@ -80,7 +80,7 @@ app.post('/register-user', verifyAdminToken, async (req, res) => {
         res.status(500).json({
             ok: false,
             response: {
-                msg:  `Internal server error": ${error}`
+                msg:  `Error interno del servidor": ${error}`
             }
         });
 

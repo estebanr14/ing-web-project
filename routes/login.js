@@ -26,7 +26,7 @@ app.post('/login', async (req, res) => {
         return res.status(400).json({
             ok: false,
             response: {
-                msg: 'Missing arguments in request body'
+                msg: 'Faltan argumentos en el body'
             }
         });
     }
@@ -38,7 +38,7 @@ app.post('/login', async (req, res) => {
                 return res.status(400).json({
                     ok: false,
                     response:{
-                        msg: 'User not found in Database'
+                        msg: 'Usuario no encontrado en la base de datos'
                     }
                 });
             } else {
@@ -68,7 +68,7 @@ app.post('/login', async (req, res) => {
                     return res.status(200).json({
                         ok: true,
                         response: {
-                            msg: 'login successfully',
+                            msg: 'Login exitoso',
                             user
                         }
 
@@ -78,7 +78,7 @@ app.post('/login', async (req, res) => {
                     return res.status(400).json({
                         ok: false,
                         response:{
-                            msg: 'Invalid password'
+                            msg: 'Contraseña inválida'
                         }
                     });
                 }
@@ -91,7 +91,7 @@ app.post('/login', async (req, res) => {
     } catch (error) {
         res.status(500).json({
             ok: false,
-            response: `Internal server error": ${error}`
+            response: `Error interno en el servidor": ${error}`
         });
 
     }

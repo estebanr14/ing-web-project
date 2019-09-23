@@ -26,7 +26,7 @@ app.post('/create-incident',verifyToken, (req,res)=>{
         return res.status(400).json({
             ok: false,
             response: {
-                msg: 'Missing arguments in request body'
+                msg: 'Faltan argumentos en el body'
             }
         });
     }
@@ -55,7 +55,7 @@ app.post('/create-incident',verifyToken, (req,res)=>{
                 return res.status(400).json({
                     ok: false,
                     response: {
-                        msg: `Error to set  in data base:  ${err}  \n`
+                        msg: `Error al guardar en la base de datos:  ${err}  \n`
                     }
                 });
             }
@@ -64,7 +64,7 @@ app.post('/create-incident',verifyToken, (req,res)=>{
             return res.status(200).json({
                 ok: true,
                 response:{
-                    msg: 'Incident registered successfully',
+                    msg: 'Incidente registrado exitosamente',
                     incident: incident_data
                 }   
             })
@@ -73,7 +73,10 @@ app.post('/create-incident',verifyToken, (req,res)=>{
 
         
     } catch (error) {
-        
+        res.status(500).json({
+            ok: false,
+            response: `Error interno en el servidor": ${error}`
+        });
     }
 
 });
