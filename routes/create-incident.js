@@ -41,10 +41,10 @@ app.post('/create-incident',verifyToken, (req,res)=>{
             category: body.category, 
             impact : body.impact, 
             createdBy: body.createdBy, 
-            assigned: body.assigned, 
-            investigator : body.investigator, 
+            assigned: "", 
+            investigator : "", 
             start_date: body.start_date, 
-            end_date: body.end_date, 
+            end_date: "", 
             state: body.state
         }
 
