@@ -36,16 +36,16 @@ app.post('/create-incident',verifyToken, (req,res)=>{
 
         let incident_data = {
             id: 'Incident_'+Date.now(),
-            title : body.titulo, 
-            description : body.descripcion, 
-            category: body.categoria, 
-            impact : body.impacto, 
-            createdBy: body.creadoPor, 
-            assigned: body.asignacion, 
-            investigator : body.investigadores, 
-            start_date: body.fechaInicio, 
-            end_date: body.fechaCierre, 
-            state: body.estado
+            title : body.title, 
+            description : body.description, 
+            category: body.category, 
+            impact : body.impact, 
+            createdBy: body.createdBy, 
+            assigned: body.assigned, 
+            investigator : body.investigator, 
+            start_date: body.start_date, 
+            end_date: body.end_date, 
+            state: body.state
         }
 
         adminFirebase.database().ref(`/Incidents/${incident_data.id}`).set({ data: incident_data }, function (err) {
