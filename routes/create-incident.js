@@ -21,7 +21,7 @@ app.post('/create-incident',verifyToken, (req,res)=>{
 
 
     //Parameters validation
-    if ((!body.titulo) || (!body.descripcion) || (!body.categoria) || (!body.impacto) || (!body.creadoPor)|| (!body.asignacion)|| (!body.investigadores)|| (!body.fechaInicio)|| (!body.fechaCierre)|| (!body.estado)) {
+    if ((!body.title) || (!body.description) || (!body.category) || (!body.impact) || (!body.createdBy)|| (!body.assigned)|| (!body.investigator)|| (!body.start_date)|| (!body.end_date)|| (!body.state)) {
         console.error(`Failed to send transaction: Missing arguments\n`);
         return res.status(400).json({
             ok: false,
@@ -36,16 +36,16 @@ app.post('/create-incident',verifyToken, (req,res)=>{
 
         let incident_data = {
             id: 'Incident_'+Date.now(),
-            titulo : body.titulo, 
-            descripcion : body.descripcion, 
-            categoria: body.categoria, 
-            impacto : body.impacto, 
-            creadoPor: body.creadoPor, 
-            asignacion: body.asignacion, 
-            investigadores : body.investigadores, 
-            fechaInicio: body.fechaInicio, 
-            fechaCierre: body.fechaCierre, 
-            estado: body.estado
+            title : body.titulo, 
+            description : body.descripcion, 
+            category: body.categoria, 
+            impact : body.impacto, 
+            createdBy: body.creadoPor, 
+            assigned: body.asignacion, 
+            investigator : body.investigadores, 
+            start_date: body.fechaInicio, 
+            end_date: body.fechaCierre, 
+            state: body.estado
         }
 
         adminFirebase.database().ref(`/Incidents/${incident_data.id}`).set({ data: incident_data }, function (err) {
