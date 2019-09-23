@@ -59,6 +59,7 @@ let verifyToken = (req, res, next) => {
         }
 
         if (decoded.role == 'admin' || decoded.role == 'user'){
+            req.user = decoded.user;
             next();
         }else{
             return res.status(401).json({
@@ -71,7 +72,7 @@ let verifyToken = (req, res, next) => {
 
         
 
-        //req.usuario = decoded.usuario;
+        
 
         
 
