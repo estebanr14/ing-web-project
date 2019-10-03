@@ -29,12 +29,18 @@ app.get('/get-all-incidents', async (req, res) => {
             }
 
             console.log(snapshot.val())
+            let json_data = snapshot.val();
+            let incidents = []
+
+            for(var i in json_data){
+                incidents.push([i, json_data [i]])
+              }
 
             return res.status(200).json({
                 ok: true,
                 response: {
                     msg: 'Búsqueda exitosa',
-                    incidents: snapshot.val()
+                    incidents
                 }
 
             });
