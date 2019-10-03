@@ -33,7 +33,8 @@ app.get('/get-all-incidents', async (req, res) => {
             let incidents = []
 
             for(var i in json_data){
-                incidents.push([i, json_data [i]])
+
+                incidents.push(json_data [i].data)
               }
 
             return res.status(200).json({
