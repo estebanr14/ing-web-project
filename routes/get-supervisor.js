@@ -28,13 +28,15 @@ app.get('/get-supervisors', async (req, res) => {
                 });
             }
 
-            console.log(snapshot.val())
+            // console.log(snapshot.val())
             let users = snapshot.val();
             let supervisors = []
 
             for(var i in users){
-
-                supervisors.push(users[i].data)
+                if(users[i].data.role == 'supervisor'){
+                    supervisors.push(users[i].data)
+                }
+                
               }
 
             return res.status(200).json({
