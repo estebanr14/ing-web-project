@@ -9,4 +9,5 @@ app.use(require('./create-incident'));
 app.use(require('./get-incident'));
 app.use(require('./get-all-incidents'));
 app.use(require('./get-supervisor'))
+app.use(require('./get-investigators'))
 module.exports = app;
