@@ -12,7 +12,7 @@ const adminFirebase = require('../model/firebase')
 //////////////////// GET INCIDENT //////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-app.get('/get-supervisors', async (req, res) => {
+app.get('/supervisors', async (req, res) => {
 
     
     try {

@@ -12,9 +12,9 @@ const adminFirebase = require('../model/firebase')
 //////////////////// GET INCIDENT //////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-app.get('/get-incident', async (req, res) => {
+app.get('/incident/:id', async (req, res) => {
 
-    let id_incident = req.query.id;
+    let id_incident = req.params.id
 
     if (!id_incident) {
         console.error(`Failed to send transaction: Missing arguments\n`);
@@ -39,25 +39,27 @@ app.get('/get-incident', async (req, res) => {
                 });
             }
 
-            let incident = {
-                id: id_incident,
-                titulo: snapshot.val().data.titulo,
-                descripcion: snapshot.val().data.descripcion,
-                categoria: snapshot.val().data.categoria,
-                impacto: snapshot.val().data.impacto,
-                creadoPor: snapshot.val().data.creadoPor,
-                asignacion: snapshot.val().data.asignacion,
-                investigadores: snapshot.val().data.investigadores,
-                fechaInicio: snapshot.val().data.fechaInicio,
-                fechaCierre: snapshot.val().data.fechaCierre,
-                estado: snapshot.val().data.estado
-            }
+            console.log(snapshot.val())
+
+            // let incident = {
+            //     id: id_incident,
+            //     titulo: snapshot.val().data.titulo,
+            //     descripcion: snapshot.val().data.descripcion,
+            //     categoria: snapshot.val().data.categoria,
+            //     impacto: snapshot.val().data.impacto,
+            //     creadoPor: snapshot.val().data.creadoPor,
+            //     asignacion: snapshot.val().data.asignacion,
+            //     investigadores: snapshot.val().data.investigadores,
+            //     fechaInicio: snapshot.val().data.fechaInicio,
+            //     fechaCierre: snapshot.val().data.fechaCierre,
+            //     estado: snapshot.val().data.estado
+            // }
 
             return res.status(200).json({
                 ok: true,
                 response: {
                     msg: 'Búsqueda exitosa',
-                    incident
+                    incident: snapshot.val().data
                 }
 
             });
