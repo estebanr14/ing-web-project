@@ -23,7 +23,7 @@ app.put('/incident', async (req, res) => {
     try {
 
 
-        adminFirebase.database().ref(`Incidents/${body.id_incident}/data`).update(body, function (err) {
+        adminFirebase.database().ref(`Incidents/${body.id}/data`).update(body, function (err) {
 
             if (err) {
                 console.log(`Error to set  in data base:  ${err}  \n`);
