@@ -16,7 +16,7 @@ const { verifyAdminToken } = require('./../utils/middlewares')
 //////////////////// REGISTER USER /////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-app.post('/register-user', verifyAdminToken, async (req, res) => {
+app.post('/user', verifyAdminToken, async (req, res) => {
 
     //req.body = {userName , email , password , role, id_provider   } //Headers:token
     let body = req.body

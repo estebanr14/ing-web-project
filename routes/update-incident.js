@@ -5,47 +5,45 @@
 
 const express = require('express');
 const app = express();
+const { verifyToken } = require('./../utils/middlewares')
 const adminFirebase = require('../model/firebase')
 
 
 ////////////////////////////////////////////////////////////////////
-//////////////////// GET INCIDENT //////////////////////////////////
+//////////////////// CREATE INCIDENT ///////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-app.get('/incidents', async (req, res) => {
 
-    
+app.put('/incident', async (req, res) => {
+
+    let body = req.body
+
+
+
     try {
 
-        await adminFirebase.database().ref(`/Incidents`).once("value", function (snapshot) {
 
-            if (snapshot.val() == null) {
+        adminFirebase.database().ref(`Incidents/${body.id_incident}/data`).update(body, function (err) {
+
+            if (err) {
+                console.log(`Error to set  in data base:  ${err}  \n`);
                 return res.status(400).json({
                     ok: false,
                     response: {
-                        msg: 'Incidentes no encontrados en la base de datos'
+                        msg: `Error al guardar en la base de datos:  ${err}  \n`
                     }
                 });
             }
 
-            // console.log(snapshot.val())
-            let json_data = snapshot.val();
-            let incidents = []
-
-            for(var i in json_data){
-
-                if (json_data [i].data != null ) incidents.push(json_data[i].data)
-              }
-
+            console.log(`Incident data updated to database successfully \n`)
             return res.status(200).json({
                 ok: true,
                 response: {
-                    msg: 'Búsqueda exitosa',
-                    incidents
+                    msg: 'Incidente actualizado exitosamente'
                 }
-
-            });
+            })
         });
+
 
     } catch (error) {
         res.status(500).json({

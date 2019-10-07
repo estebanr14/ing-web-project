@@ -14,7 +14,7 @@ const adminFirebase = require('../model/firebase')
 ////////////////////////////////////////////////////////////////////
 
 
-app.post('/create-incident',verifyToken, (req,res)=>{
+app.post('/incident',verifyToken, (req,res)=>{
 
     //req.body = { titulo , descripcion, categoria, impacto, creadoPor, asignacion, investigadores, fechaInicio, fechaCierre, estado} // header: {token}
     let body = req.body
