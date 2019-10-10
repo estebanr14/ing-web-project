@@ -40,7 +40,7 @@ app.post('/incident',verifyToken, (req,res)=>{
             description : body.description, 
             category: body.category, 
             impact : body.impact, 
-            createdBy: req.user, 
+            createdBy: body.createdBy, 
             assigned: "", 
             investigator : "", 
             start_date: body.start_date, 
