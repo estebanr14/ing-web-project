@@ -12,7 +12,7 @@ const adminFirebase = require('../model/firebase')
 //////////////////// GET INCIDENT FOR ASSIGNED OR INVESTIGATOR /////
 ////////////////////////////////////////////////////////////////////
 
-app.get('/incidentsbydelegate', async (req, res) => {
+app.post('/incidentsbydelegate', async (req, res) => {
 
         
     try {

@@ -54,6 +54,7 @@ app.post('/login', async (req, res) => {
                     }, 'ing-web-secret');
 
                     let user = {
+                        name: snapshot.val().data.name,
                         userName: body.userName,
                         role: snapshot.val().data.role,
                         email: snapshot.val().data.email,

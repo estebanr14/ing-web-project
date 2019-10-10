@@ -38,7 +38,8 @@ app.post('/user', verifyAdminToken, async (req, res) => {
         //logic
 
         let data = {
-            name: body.userName,
+            name : body.name,
+            userName: body.userName,
             email: body.email,
             password: sha256.x2(body.password),
             role: body.role,
