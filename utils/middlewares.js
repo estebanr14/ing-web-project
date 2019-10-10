@@ -23,7 +23,7 @@ let verifyAdminToken = (req, res, next) => {
             });
         }
 
-        if (decoded.role != 'admin'){
+        if (decoded.role != 'admin') {
             return res.status(401).json({
                 ok: false,
                 response: {
@@ -57,25 +57,8 @@ let verifyToken = (req, res, next) => {
                 }
             });
         }
-
-        if (decoded.role == 'admin' || decoded.role == 'user'){
-            req.user = decoded.user;
-            next();
-        }else{
-            return res.status(401).json({
-                ok: false,
-                response: {
-                    msg: 'Role must be admin or user'
-                }
-            });
-        }
-
-        
-
-        
-
-        
-
+        req.user = decoded.user;
+        next();
     });
 
 
