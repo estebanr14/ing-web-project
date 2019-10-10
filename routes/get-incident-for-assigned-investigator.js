@@ -9,12 +9,12 @@ const adminFirebase = require('../model/firebase')
 
 
 ////////////////////////////////////////////////////////////////////
-//////////////////// GET ALL INCIDENTS /////////////////////////////
+//////////////////// GET INCIDENT FOR ASSIGNED OR INVESTIGATOR /////
 ////////////////////////////////////////////////////////////////////
 
-app.get('/incidents', async (req, res) => {
+app.get('/incidentsbydelegate', async (req, res) => {
 
-    
+        
     try {
 
         await adminFirebase.database().ref(`/Incidents`).once("value", function (snapshot) {
@@ -30,11 +30,17 @@ app.get('/incidents', async (req, res) => {
 
             // console.log(snapshot.val())
             let json_data = snapshot.val();
-            let incidents = []
+            let incidents = [];
+            let type = req.body.type;
 
             for(var i in json_data){
 
-                if (json_data [i].data != null ) incidents.push(json_data[i].data)
+                if(type == "assigned"){
+                    if(json_data [i].data.assigned == req.body.name ) incidents.push(json_data[i].data)
+                }else if (type == "investigator"){
+                    if(json_data [i].data.investigator == req.body.name ) incidents.push(json_data[i].data)
+                }
+                
               }
 
             return res.status(200).json({
@@ -46,6 +52,7 @@ app.get('/incidents', async (req, res) => {
 
             });
         });
+
 
     } catch (error) {
         res.status(500).json({

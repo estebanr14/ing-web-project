@@ -26,9 +26,7 @@ app.post('/user', verifyAdminToken, async (req, res) => {
     if ((!body.userName) || (!body.email) || (!body.password) || (!body.role) || (!body.id_provider)) {
         console.error(`Failed to send transaction: Missing arguments\n`);
         return res.status(400).json({
-            ////////////////////////////////////////////////////////////////////
-//////////////////// REGISTER USER /////////////////////////////////
-////////////////////////////////////////////////////////////////////ok: false,
+            ok: false,
             response: {
                 msg: 'Faltan argumentos en el Body'
             }
